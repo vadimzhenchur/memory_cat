@@ -1,8 +1,50 @@
 import random
 from PyQt5.QtWidgets import *
 import base
-
+import TREBA
+import editwindow
 app = QApplication([])
+app.setStyleSheet("""
+     QWidget{
+          background-color: #A0E7E5;
+          }
+     QPushButton{
+        
+        background-color: #BCECE0;
+        border-width: 10px;
+        border-color: #04ECF0;
+        border-style: inset;
+        font-family: Impact;
+        min-width: 0em;
+        padding: 10px;
+        border-radius: 10px;
+        
+        }
+     QGroupBox {
+        border-style: inset;
+        border-width: 10px;
+        border-color: #059DC0;
+        border-radius: 10px;
+        font-family: Impact;
+        }
+     QSpinBox {
+        border-style: inset;
+        border-width: 10px;
+        border-color: #15B5B0;
+        border-radius: 10px;
+        font-family: Impact;
+        }
+        QLabel {
+        border-style: inset;
+        border-width: 10px;
+        max-height: 20px;
+        man-width: 40px;
+        border-color: #E7F2F8;
+        border-radius: 10px;
+        font-family: Impact;
+        }
+          """)
+
 window = QWidget()
 
 window.resize(500, 500)
@@ -16,12 +58,13 @@ timeLbl = QLabel("хвилин")
 Anwer = QPushButton("Відповісти")
 Anwer1 = QLabel("Яблуко")
 Anwer2 = QPushButton("Наступне питання")
-
+edit = QPushButton("Редагувати")
 firstLine = QHBoxLayout()
 firstLine.addWidget(menuBth)
 firstLine.addWidget(restBth)
 firstLine.addWidget(timeSpn)
 firstLine.addWidget(timeLbl)
+
 mainLine.addLayout(firstLine)
 qLine = QHBoxLayout()
 qLine.addWidget(Anwer1)
@@ -51,6 +94,7 @@ result.hide()
 qwertyLine = QHBoxLayout()
 qwertyLine.addWidget(Anwer)
 qwertyLine.addWidget(Anwer2)
+qwertyLine.addWidget(edit)
 mainLine.addLayout(qwertyLine)
 Anwer2.hide()
 
@@ -75,10 +119,28 @@ def showResult():
     else:
         result.setText("не правильно")
 
+def nextFunc():
+    answers[0].show()
+    answers[1].show()
+    answers[2].show()
+    answers[3].show()
+    Anwer.show()
+    result.hide()
+    base.currentQuest += 1
+    setQuest()
 
+def editQuestFunc():
+    window.hide()
+    editwindow.editwindow1()
+    window.show()
 
+    setQuest()
+
+menuBth.clicked.connect(TREBA.menuWind)
+edit.clicked.connect(editQuestFunc)
 Anwer.clicked.connect(showResult)
 
+Anwer2.clicked.connect(nextFunc)
 window.setLayout(mainLine)
 window.show()
 app.exec()
